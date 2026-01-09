@@ -57,7 +57,7 @@ function StatItem({ value, label, visible, count }) {
 
   return (
     <div className={`stat-item ${visible ? 'visible' : ''}`}>
-      <div className="stat-value">{displayValue}{value.includes('°') ? '°' : ''}</div>
+      <div className="stat-value">{displayValue}</div>
       <div className="stat-label">{label}</div>
     </div>
   )
