@@ -12,7 +12,9 @@ function Navbar({ theme, toggleTheme }) {
         <div className="theme-toggle">
           <div className="toggle-switch" onClick={toggleTheme}>
             <div className="toggle-slider">
-              <span className="toggle-icon">{theme === 'light' ? '☀️' : '🌙'}</span>
+              <span className="toggle-icon">
+                {theme === 'light' ? '☀️' : theme === 'glass' ? '💎' : '🌙'}
+              </span>
             </div>
           </div>
           <button className="nav-cta" onClick={scrollToCta}>Ci sono →</button>

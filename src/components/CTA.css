@@ -71,6 +71,12 @@
   transition: all 0.3s ease;
 }
 
+[data-theme="glass"] .cta-step-num {
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
 .cta-step:hover .cta-step-num {
   background: var(--accent);
   color: var(--bg);
@@ -129,6 +135,12 @@
   border-radius: var(--radius);
   display: inline-block;
   border: 1px solid var(--border-color);
+}
+
+[data-theme="glass"] .deadline-box {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .deadline-label {

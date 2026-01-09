@@ -20,6 +20,12 @@
   transition: all 0.8s ease;
 }
 
+[data-theme="glass"] .price-breakdown {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
 .price-breakdown.visible {
   opacity: 1;
   transform: translateX(0);

@@ -53,6 +53,12 @@
   animation: fadeUp 0.8s ease 0.3s forwards;
 }
 
+[data-theme="glass"] .hero-badge {
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  box-shadow: 0 4px 16px 0 rgba(0, 212, 170, 0.2);
+}
+
 .hero-badge .dot {
   width: 8px;
   height: 8px;

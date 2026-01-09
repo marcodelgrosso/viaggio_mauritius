@@ -76,6 +76,33 @@ Il server sarà disponibile su `http://localhost:3001`
 - `npm run server` - Avvia il server Node.js
 - `npm run dev:server` - Avvia il server con auto-reload
 
+## 🚀 Deploy su Vercel
+
+### Configurazione Vercel
+
+1. **Framework Preset**: Vite (dovrebbe essere rilevato automaticamente)
+2. **Build Command**: `npm run build` (o `npm install && npm run build`)
+3. **Output Directory**: `dist`
+4. **Install Command**: `npm install` (default)
+
+### Variabili d'Ambiente su Vercel
+
+Aggiungi queste variabili d'ambiente nel progetto Vercel:
+
+- `VITE_SUPABASE_URL` = `https://dsunfhjfgruxuklbmzic.supabase.co`
+- `VITE_SUPABASE_ANON_KEY` = (chiave anon di Supabase)
+
+**Dove aggiungere le variabili:**
+- Vai su Vercel Dashboard → Il tuo progetto → Settings → Environment Variables
+- Aggiungi le variabili per tutti gli ambienti (Production, Preview, Development)
+
+### Nota sul Backend
+
+Il server Express (`server/index.js`) non può essere deployato su Vercel come server tradizionale. Opzioni:
+
+1. **Deploy solo frontend** (consigliato per ora) - Il frontend React si collega direttamente a Supabase
+2. **Converti API in Vercel Serverless Functions** - Se hai bisogno del backend su Vercel
+
 ## 📡 API Endpoints
 
 - `GET /api/health` - Health check del server
