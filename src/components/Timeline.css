@@ -1,0 +1,67 @@
+.timeline {
+  padding: 100px 24px;
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(0, 212, 170, 0.02) 50%, var(--bg) 100%);
+}
+
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.timeline-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 32px;
+  border: 1px solid var(--border-color);
+  position: relative;
+  opacity: 0;
+  transform: translateY(40px) scale(0.95);
+  transition: all 0.6s ease;
+}
+
+.timeline-card.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.timeline-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px var(--shadow-color);
+}
+
+.timeline-number {
+  position: absolute;
+  top: -20px;
+  left: 32px;
+  width: 40px;
+  height: 40px;
+  background: var(--gradient-1);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  color: var(--bg);
+}
+
+.timeline-days {
+  font-size: 0.8rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.timeline-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+}
+
+.timeline-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}

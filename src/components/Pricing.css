@@ -1,0 +1,125 @@
+.pricing {
+  padding: 100px 24px;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-top: 60px;
+}
+
+.price-breakdown {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 40px;
+  border: 1px solid var(--border-color);
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: all 0.8s ease;
+}
+
+.price-breakdown.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.price-row:last-of-type {
+  border-bottom: none;
+}
+
+.price-label {
+  color: var(--text-muted);
+}
+
+.price-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.price-total {
+  background: rgba(0, 212, 170, 0.1);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  text-align: center;
+  margin-top: 24px;
+}
+
+.price-total-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  background: var(--gradient-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.price-total-label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.caparra-card {
+  background: var(--gradient-1);
+  border-radius: var(--radius);
+  padding: 48px 40px;
+  text-align: center;
+  color: var(--bg);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(40px);
+  transition: all 0.8s ease 0.2s;
+}
+
+.caparra-card.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.caparra-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+  animation: shimmer 3s infinite;
+}
+
+.caparra-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 1;
+  position: relative;
+}
+
+.caparra-label {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 8px;
+  position: relative;
+}
+
+.caparra-note {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  position: relative;
+}
