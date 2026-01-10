@@ -7,6 +7,7 @@ function Quiz({ onComplete }) {
   const [answers, setAnswers] = useState({})
   const [showPriceAnchor, setShowPriceAnchor] = useState(false)
   const [showResult, setShowResult] = useState(false)
+  const [isTransitioning, setIsTransitioning] = useState(false)
   const questionRef = useRef(null)
 
   const totalQuestions = 5
@@ -68,7 +69,13 @@ function Quiz({ onComplete }) {
     if (questionRef.current) {
       questionRef.current.classList.add('visible')
     }
+    // Reset transition state when question changes
+    setIsTransitioning(false)
   }, [currentQuestion])
+
+  // Calculate derived values
+  const currentQ = questions.find(q => q.id === currentQuestion)
+  const isLoadingState = currentQuestion === 4.5
 
   const updateProgress = (question) => {
     const progress = ((question - 1) / totalQuestions) * 100
@@ -76,7 +83,11 @@ function Quiz({ onComplete }) {
   }
 
   const handleAnswer = (option) => {
+    // Prevent multiple clicks
+    if (isTransitioning) return
+    
     setSelectedAnswer(option.value)
+    setIsTransitioning(true)
     
     // Store answer
     const newAnswers = { ...answers, [currentQuestion]: option.value }
@@ -92,6 +103,7 @@ function Quiz({ onComplete }) {
         setTimeout(() => {
           setCurrentQuestion(5)
           setSelectedAnswer(null)
+          setIsTransitioning(false)
         }, 1500)
       }, 3000)
       return
@@ -101,20 +113,13 @@ function Quiz({ onComplete }) {
     setTimeout(() => {
       if (option.next === 'result') {
         setShowResult(true)
-        setTimeout(() => {
-          // Only save completion in production mode
-          const isDev = import.meta.env.DEV
-          if (!isDev) {
-            // Mark quiz as completed with 10 days expiration (only in production)
-            const expirationDate = new Date()
-            expirationDate.setDate(expirationDate.getDate() + 10)
-            localStorage.setItem('quiz_completed', expirationDate.getTime().toString())
-          }
-          // Wait a bit more before calling onComplete to let user see the result
-          setTimeout(() => {
-            onComplete()
-          }, 500)
-        }, 1000)
+        // Mark quiz as completed when reaching result (only in production mode)
+        const isDev = import.meta.env.DEV
+        if (!isDev) {
+          const expirationDate = new Date()
+          expirationDate.setDate(expirationDate.getDate() + 10)
+          localStorage.setItem('quiz_completed', expirationDate.getTime().toString())
+        }
       } else {
         if (questionRef.current) {
           questionRef.current.classList.remove('visible')
@@ -123,20 +128,24 @@ function Quiz({ onComplete }) {
         setTimeout(() => {
           setCurrentQuestion(option.next)
           setSelectedAnswer(null)
+          setIsTransitioning(false)
           if (questionRef.current) {
             questionRef.current.classList.remove('exit')
           }
-        }, 300)
+        }, 600)
       }
-    }, 400)
+    }, 800)
   }
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
+      // Don't allow keyboard navigation during transition
+      if (isTransitioning) return
+      
       if (e.key === '1' || e.key === '2') {
         const currentQ = questions.find(q => q.id === currentQuestion)
-        if (currentQ && !showResult) {
+        if (currentQ && !showResult && !isLoadingState) {
           const index = e.key === '1' ? 0 : 1
           if (currentQ.options[index]) {
             handleAnswer(currentQ.options[index])
@@ -147,10 +156,7 @@ function Quiz({ onComplete }) {
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [currentQuestion, showResult])
-
-  const currentQ = questions.find(q => q.id === currentQuestion)
-  const isLoadingState = currentQuestion === 4.5
+  }, [currentQuestion, showResult, isTransitioning, isLoadingState])
 
   if (showResult) {
     return (
@@ -171,7 +177,10 @@ function Quiz({ onComplete }) {
               <strong>Mauritius, 20-28 Marzo 2026.</strong><br />
               9 giorni di avventura con un gruppo di amici. Mare cristallino, delfini, trekking — a molto meno di quanto pensi.
             </p>
-            <button className="cta-btn" onClick={onComplete}>
+            <button className="cta-btn" onClick={() => {
+              // User must explicitly click the button to continue
+              onComplete()
+            }}>
               Scopri il viaggio
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -226,13 +235,24 @@ function Quiz({ onComplete }) {
               {currentQ?.options.map((option, index) => (
                 <button
                   key={index}
-                  className={`answer-btn ${selectedAnswer === option.value ? 'selected' : ''}`}
+                  className={`answer-btn ${selectedAnswer === option.value ? 'selected' : ''} ${isTransitioning ? 'disabled' : ''}`}
                   onClick={() => handleAnswer(option)}
+                  disabled={isTransitioning}
                 >
                   <span>{option.text}</span>
                 </button>
               ))}
             </div>
+            {isTransitioning && (
+              <div className="transition-indicator">
+                <div className="transition-loader">
+                  <svg className="transition-spinner" viewBox="0 0 50 50">
+                    <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="3" stroke="currentColor" strokeLinecap="round" />
+                  </svg>
+                </div>
+                <p className="transition-text">Ottima scelta! Procediamo...</p>
+              </div>
+            )}
             {currentQuestion === 4 && showPriceAnchor && (
               <div className="info-reveal visible">
                 <p>

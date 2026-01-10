@@ -180,6 +180,17 @@
   opacity: 0.1;
 }
 
+.answer-btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none !important;
+}
+
+.answer-btn.disabled:not(.selected) {
+  opacity: 0.4;
+}
+
 /* Two column answers */
 .answers.two-col {
   flex-direction: row;
@@ -352,6 +363,91 @@
 @keyframes loadingBounce {
   0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
   40% { transform: scale(1); opacity: 1; }
+}
+
+/* Transition indicator */
+.transition-indicator {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.transition-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+}
+
+.transition-spinner {
+  width: 60px;
+  height: 60px;
+  animation: rotate 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  color: var(--accent);
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+}
+
+.transition-spinner .path {
+  stroke-dasharray: 125.6;
+  stroke-dashoffset: 125.6;
+  animation: dash 1.5s ease-in-out infinite;
+  stroke: var(--accent);
+  stroke-linecap: round;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 125.6;
+    opacity: 1;
+  }
+  50% {
+    stroke-dashoffset: 31.4;
+    opacity: 0.8;
+  }
+  100% {
+    stroke-dashoffset: 125.6;
+    opacity: 1;
+  }
+}
+
+.transition-text {
+  color: var(--accent);
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+  animation: pulseText 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseText {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* Glass theme support */

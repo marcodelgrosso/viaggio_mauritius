@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import Quiz from './components/Quiz'
+import DepositModal from './components/DepositModal'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Stats from './components/Stats'
 import Features from './components/Features'
+import FeaturesScrollBg from './components/FeaturesScrollBg'
 import Timeline from './components/Timeline'
 import Reframe from './components/Reframe'
 import Pricing from './components/Pricing'
@@ -13,8 +15,10 @@ import './App.css'
 
 function App() {
   const [theme, setTheme] = useState('glass')
+  const [featuresLayout, setFeaturesLayout] = useState('bento')
   const [showQuiz, setShowQuiz] = useState(false)
   const [quizChecked, setQuizChecked] = useState(false)
+  const [showDepositModal, setShowDepositModal] = useState(false)
   
   // Check if we're in development mode
   const isDev = import.meta.env.DEV
@@ -75,6 +79,11 @@ function App() {
     document.documentElement.setAttribute('data-theme', savedTheme)
   }, [])
 
+  useEffect(() => {
+    const savedLayout = localStorage.getItem('features-layout') || 'bento'
+    setFeaturesLayout(savedLayout)
+  }, [])
+
   const toggleTheme = () => {
     const themes = ['dark', 'light', 'glass']
     const currentIndex = themes.indexOf(theme)
@@ -83,6 +92,12 @@ function App() {
     setTheme(newTheme)
     document.documentElement.setAttribute('data-theme', newTheme)
     localStorage.setItem('theme', newTheme)
+  }
+
+  const toggleFeaturesLayout = () => {
+    const newLayout = featuresLayout === 'bento' ? 'scroll-bg' : 'bento'
+    setFeaturesLayout(newLayout)
+    localStorage.setItem('features-layout', newLayout)
   }
 
   const handleQuizComplete = () => {
@@ -112,6 +127,23 @@ function App() {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isDev])
 
+  // Show deposit modal after 4 seconds (only on landing page, not during quiz)
+  useEffect(() => {
+    // Don't show modal if quiz is showing
+    if (showQuiz) return
+
+    // Check if user has dismissed the modal
+    const modalDismissed = localStorage.getItem('deposit_modal_dismissed')
+    if (modalDismissed === 'true') return
+
+    // Show modal after 4 seconds
+    const timer = setTimeout(() => {
+      setShowDepositModal(true)
+    }, 4000)
+
+    return () => clearTimeout(timer)
+  }, [showQuiz])
+
   // Show loading or nothing while checking quiz status
   if (!quizChecked) {
     return null
@@ -126,6 +158,9 @@ function App() {
   return (
     <>
       <CursorGlow />
+      {showDepositModal && (
+        <DepositModal onClose={() => setShowDepositModal(false)} />
+      )}
       {isDev && (
         <div style={{
           position: 'fixed',
@@ -149,10 +184,15 @@ function App() {
           }}>Q</kbd> per aprire/chiudere il quiz
         </div>
       )}
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
+      <Navbar
+        theme={theme}
+        toggleTheme={toggleTheme}
+        featuresLayout={featuresLayout}
+        toggleFeaturesLayout={toggleFeaturesLayout}
+      />
       <Hero />
       <Stats />
-      <Features />
+      {featuresLayout === 'bento' ? <Features /> : <FeaturesScrollBg />}
       <Timeline />
       <Reframe />
       <Pricing />

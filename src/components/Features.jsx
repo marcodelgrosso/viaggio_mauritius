@@ -63,12 +63,39 @@ function Features() {
           />
           <BentoCard
             index="3"
+            size="small"
+            image
+            imageUrl="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&q=80"
+            title="Avventure acquatiche"
+            description="Kitesurf, kayak, paddleboard e immersioni in acque cristalline."
+            visible={visibleItems.has('3')}
+          />
+          <BentoCard
+            index="4"
+            size="small"
+            image
+            imageUrl="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&q=80"
+            title="Gastronomia creola"
+            description="Sapori unici del curry mauriziano, roti, mine frit e street food locale."
+            visible={visibleItems.has('4')}
+          />
+          <BentoCard
+            index="5"
             size="medium"
             image
             imageUrl="https://images.unsplash.com/photo-1586500036706-41963de24d8b?w=800&q=80"
             title="Cultura unica"
-            description="Mix di influenze indiane, africane e francesi"
-            visible={visibleItems.has('3')}
+            description="Mix di influenze indiane, africane e francesi in un'isola dal fascino coloniale"
+            visible={visibleItems.has('5')}
+          />
+          <BentoCard
+            index="6"
+            size="medium"
+            image
+            imageUrl="https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=800&q=80"
+            title="Esperienze locali"
+            description="Mercati di Port Louis, templi hindu, villaggi di pescatori e piantagioni di tè"
+            visible={visibleItems.has('6')}
           />
         </div>
       </div>

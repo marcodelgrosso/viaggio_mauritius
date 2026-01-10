@@ -44,10 +44,10 @@
   box-shadow: 0 0 30px var(--accent-glow);
 }
 
-.theme-toggle {
+.nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
 .toggle-switch {
@@ -95,4 +95,34 @@
 
 .toggle-icon {
   font-size: 14px;
+}
+
+/* Layout toggle specific styles */
+.layout-toggle .toggle-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* Layout toggle has static position (icon changes, not position) */
+[data-theme="light"] .layout-toggle .toggle-slider,
+[data-theme="glass"] .layout-toggle .toggle-slider,
+[data-theme="dark"] .layout-toggle .toggle-slider {
+  transform: translateX(15px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .nav-actions {
+    gap: 12px;
+  }
+
+  .toggle-switch {
+    width: 52px;
+    height: 26px;
+  }
+
+  .toggle-slider {
+    width: 20px;
+    height: 20px;
+  }
 }

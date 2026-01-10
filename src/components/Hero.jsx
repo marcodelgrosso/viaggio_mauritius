@@ -13,7 +13,7 @@ function Hero() {
           <span className="dot"></span>
           <span>Discovery 18-40 · 7+ già interessati</span>
         </div>
-        <h1>L'avventura ti aspetta a <span className="highlight">Mauritius</span></h1>
+        <h1>L'avventura ti aspetta alle <span className="highlight">Mauritius</span></h1>
         <p className="hero-subtitle">9 giorni di mare cristallino, delfini all'alba e trekking nella giungla. Con un gruppo di amici, non sconosciuti.</p>
         <div className="hero-cta-group">
           <button className="btn-primary" onClick={scrollToCta}>Ci sono, dimmi di più →</button>
